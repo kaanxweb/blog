@@ -1,9 +1,14 @@
-const e = require("express");
-
 const express = require('express');
-const app = express();
+const dotenv = require('dotenv').config();
 const cors = require('cors');
 const helmet = require('helmet');
+const app = express();
+
+// Import .env file
+require('./.env');
+// Import database connection
+require('./database-connection');
+
 
 app.use(helmet());
 app.use(
@@ -21,6 +26,4 @@ app.get('/', (req, res) => {
 });
 
 const port = process.env.PORT || 80;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)
-});
+app.listen(port, () => console.log(`Server is running on port ${port}`));
