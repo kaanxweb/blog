@@ -9,6 +9,11 @@ const postSchema = new Schema({
     content: {
         type: String,
         required: true
+    }
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'admin',
+        required: true
     },
     createdAt: {
         type: Date,
