@@ -2,6 +2,9 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const helmet = require('helmet');
+
+// Import routes
+const settingRoute = require('./routes/admin/settingRoute');
 const app = express();
 
 // Import .env file
@@ -21,9 +24,8 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-    res.status(200).send('Server is working!')
-});
+// Routes
+app.use('/api/admin', settingRoute);
 
 const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
