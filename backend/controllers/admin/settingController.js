@@ -18,3 +18,38 @@ exports.getSiteSettings = async (req, res) => {
             });
     }
 }
+
+exports.updateSiteSettings = async (req, res) => {
+    const {
+        siteTitle,
+         siteDescription,
+          siteKeywords,
+        email,
+         password,
+          facebookUrl,
+        githubUrl,
+         linkedinUrl
+    } = req.body;
+
+    try {
+        const settings = await Setting.findOne();
+
+        settings.siteTitle = siteTitle;
+        settings.siteDescription = siteDescription;
+        settings.siteKeywords = siteKeywords;
+        settings.email = email;
+        settings.password = password;
+        settings.facebookUrl = facebookUrl;
+        settings.githubUrl = githubUrl;
+        settings.linkedinUrl = linkedinUrl;
+
+        await settings.save();
+
+        res.status(200).json(settings);
+    } catch (error) {
+console.error(              error);
+        res.status(500).json({
+errorStatus: true
+        });
+    }
+}

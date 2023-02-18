@@ -2,21 +2,35 @@ const mongoose = require('mongoose');
 const siteSettingSchema = mongoose.Schema({
     siteTitle: {
          type: String,
-          required: true},
+          trim: true},
     siteDescription: {
         type: String,
-        require: true,
         trim: true
     },
-    siteKeywords: String,
+    siteKeywords: {
+        type: String,
+        trim: true
+    },
     email: {
         type: String,
         trim: true
     },
-    password: String,
-    facebookUrl: String,
-    linkedinUrl: String,
- githubUrl: String
+    password: {
+        type: String,
+        trim: true
+    },
+    facebookUrl: {
+        type: String,
+        trim: true
+    },
+    linkedinUrl: {
+        type: String,
+        trim: true
+    },
+ githubUrl: {
+    type: String,
+    trim: true
+ }
 });
 
 const SiteSetting = mongoose.model('setting', siteSettingSchema);
