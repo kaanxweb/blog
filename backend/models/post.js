@@ -5,10 +5,16 @@ const postSchema = new Schema({
     title: {
         type: String,
         required: true
+        trim: true
     },
     content: {
         type: String,
-        required: true
+        required: true,
+        trim: true
+    },
+    view: {
+        type: Number,
+        default: 0
     }
     author: {
         type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +29,14 @@ const postSchema = new Schema({
         type: Date,
         default: Date.now
     }
+});
+
+postSchema.pre('validate', (next) => {
+    this.updatedAt = Date.now();
+    if (!this.createdAt) {
+        this.createdAt = this.updatedAt;
+    }
+    next();
 });
 
 const Post = mongoose.model('Post', postSchema);
