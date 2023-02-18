@@ -5,6 +5,7 @@ const helmet = require('helmet');
 
 // Import routes
 const settingRoute = require('./routes/admin/settingRoute');
+const userRoute = require('./routes/user/settingRoute');
 const app = express();
 
 // Import .env file
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use('/api/admin', settingRoute);
+app.use('/api/user', userRoute);
 
 const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
