@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
         trim: true
     },
     content: {
@@ -15,7 +15,7 @@ const postSchema = new Schema({
     view: {
         type: Number,
         default: 0
-    }
+    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'admin',

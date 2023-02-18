@@ -4,8 +4,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 // Import routes
-const settingRoute = require('./routes/admin/settingRoute');
-const userRoute = require('./routes/user/settingRoute');
+const adminSiteSettingRoute = require('./routes/admin/settingRoute');
+const userPostRoute = require('./routes/user/postRoute');
+const userSiteSettingRoute = require('./routes/user/settingRoute');
 const app = express();
 
 // Import .env file
@@ -26,8 +27,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use('/api/admin', settingRoute);
-app.use('/api/user', userRoute);
+app.use('/api/admin', adminSiteSettingRoute);
+app.use('/api/user', userSiteSettingRoute);
+app.use('/api/user', userPostRoute);
 
 const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
