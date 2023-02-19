@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const slugify = require('slugify');
 
 const postSchema = new Schema({
     title: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     },
     content: {
         type: String,
@@ -21,6 +23,10 @@ const postSchema = new Schema({
         ref: 'admin',
         required: true
     },
+    slug: {
+        type: String,
+        unique: true
+    }
     createdAt: {
         type: Date,
         default: Date.now
@@ -31,7 +37,15 @@ const postSchema = new Schema({
     }
 });
 
-postSchema.pre('validate', (next) => {
+postSchema.pre('validate', function(next) => {
+    this.slug = slugify(this.title, {
+        lower: true,
+        strict: true
+    });
+    next();
+});
+
+postSchema.pre('validate', function(next) => {
     this.updatedAt = Date.now();
     if (!this.createdAt) {
         this.createdAt = this.updatedAt;
