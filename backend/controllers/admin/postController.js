@@ -17,3 +17,21 @@ exports.createPost = async (req, res) => {
         });
     }
 }
+
+exports.deletePost = async (req, res) => {
+    try {
+        const isPostDeleted = await Post.findOneAndDelete({ slug: req.params.slug });
+
+        if (isPostDeleted) {
+            res.status(200).send('Post has been deleted successfully.');
+        } else {
+            res.status(404).send('An error occurred!');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: true,
+            message: error.message
+        });
+    }
+}
