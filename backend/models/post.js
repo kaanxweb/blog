@@ -26,7 +26,7 @@ const postSchema = new Schema({
     slug: {
         type: String,
         unique: true
-    }
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -37,7 +37,7 @@ const postSchema = new Schema({
     }
 });
 
-postSchema.pre('validate', function(next) => {
+postSchema.pre('validate', function (next) {
     this.slug = slugify(this.title, {
         lower: true,
         strict: true
@@ -45,7 +45,7 @@ postSchema.pre('validate', function(next) => {
     next();
 });
 
-postSchema.pre('validate', function(next) => {
+postSchema.pre('validate', function (next) {
     this.updatedAt = Date.now();
     if (!this.createdAt) {
         this.createdAt = this.updatedAt;

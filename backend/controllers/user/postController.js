@@ -13,3 +13,24 @@ exports.getAllPosts = async (req, res) => {
         });
     }
 }
+
+exports.getPost = async (req, res) => {
+    try {
+        const post = await Post.findOne({ slug: req.params.slug }, { select: '-_id' });
+
+        if (post) {
+
+post.view++;
+await post.save();
+
+            res.status(200).json(post);
+        } else {
+            res.status(404).send('Post not found!');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: true
+        });
+    }
+}
