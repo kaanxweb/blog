@@ -5,6 +5,7 @@ const helmet = require('helmet');
 
 // Import routes
 const adminSiteSettingRoute = require('./routes/admin/settingRoute');
+const adminPostRoute = require('./routes/admin/postRoute');
 const userPostRoute = require('./routes/user/postRoute');
 const userSiteSettingRoute = require('./routes/user/settingRoute');
 const app = express();
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use('/api/admin', adminSiteSettingRoute);
+app.use('/api/admin', adminPostRoute);
 app.use('/api/user', userSiteSettingRoute);
 app.use('/api/user', userPostRoute);
 

@@ -21,7 +21,7 @@ const postSchema = new Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'admin',
-        required: true
+        required: false
     },
     slug: {
         type: String,

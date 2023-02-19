@@ -16,13 +16,12 @@ exports.getAllPosts = async (req, res) => {
 
 exports.getPost = async (req, res) => {
     try {
-        const post = await Post.findOne({ slug: req.params.slug }, { select: '-_id' });
+        const post = await Post.findOneAndUpdate({ slug: req.params.slug },
+             { $inc: { view: 1 } },
+              { new: true })
+              .select('-_id');
 
         if (post) {
-
-post.view++;
-await post.save();
-
             res.status(200).json(post);
         } else {
             res.status(404).send('Post not found!');
