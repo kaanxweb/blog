@@ -29,7 +29,8 @@ const postSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+        immutable: true
     },
     updatedAt: {
         type: Date,
@@ -45,7 +46,7 @@ postSchema.pre('validate', function (next) {
     next();
 });
 
-postSchema.pre('validate', function (next) {
+postSchema.pre('save', function (next) {
     this.updatedAt = Date.now();
     if (!this.createdAt) {
         this.createdAt = this.updatedAt;
