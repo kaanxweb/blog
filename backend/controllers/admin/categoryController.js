@@ -52,3 +52,29 @@ exports.getAllCategories = async (req, res) => {
         });
     }
 }
+
+exports.updateCategory = async (req, res) => {
+    try {
+        const { name } = req.body;
+
+        if (!name) return res.status(400).send('An error occurred!');
+
+const category = await Category.findOne({ slug: req.params.slug });
+
+        if (category) {
+            category.name = name;
+
+            await category.save();
+         res.status(200).json(category);
+
+        } else {
+            res.status(404).send('Category not found!');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: true,
+            message: error.message
+        });
+    }
+}
