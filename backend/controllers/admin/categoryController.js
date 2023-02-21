@@ -23,3 +23,20 @@ if (!name) return res.status(400).send('An error occurred!');
         });
     }
 }
+
+exports.deleteCategory = async (req, res) => {
+    try {
+        const isCategoryDeleted = await Category.findOneAndDelete({ slug: req.params.slug });
+
+        if (isCategoryDeleted) {
+            res.status(200).send('The category deleted successfully.');
+        } else {
+            res.status(404).send('Category not found!');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: true
+        });
+    }
+}
