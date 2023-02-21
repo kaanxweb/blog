@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 // Import routes
+const adminCategoryRoute = require('./routes/admin/categoryRoute');
 const adminSiteSettingRoute = require('./routes/admin/settingRoute');
 const adminPostRoute = require('./routes/admin/postRoute');
 const userPostRoute = require('./routes/user/postRoute');
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
+app.use('/api/admin', adminCategoryRoute);
 app.use('/api/admin', adminSiteSettingRoute);
 app.use('/api/admin', adminPostRoute);
 app.use('/api/user', userSiteSettingRoute);
