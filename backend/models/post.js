@@ -23,6 +23,11 @@ const postSchema = new Schema({
         ref: 'admin',
         required: false
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'category',
+        required: false
+    },
     slug: {
         type: String,
         unique: true

@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.post('/posts', postController.createPost);
 router.delete('/posts/:slug', postController.deletePost);
+router.get('/')
 router.put('/posts/:slug', postController.updatePost);
 
 module.exports = router;
