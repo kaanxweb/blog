@@ -7,14 +7,14 @@ exports.getSiteSettings = async (req, res) => {
         if (settings) {
             res.status(200).json(settings);
         } else {
-            res.status(400).json({ 
-                error: 'Site settings not found.'
+            res.status(404).json({ 
+                message: 'Site settings not found.'
              });
         }
     } catch (error) {
         console.error(error);
         res.status(500).json({
-             error: error.message 
+             error: true
             });
     }
 }

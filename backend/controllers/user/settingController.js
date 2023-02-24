@@ -2,7 +2,7 @@ const Setting = require('../../models/setting');
 
 exports.getSiteSettings = async (req, res) => {
     try {
-        const settings = await Setting.findOne().select('-_id').exec();
+        const settings = await Setting.findOne().select('-_id');
 
 res.status(200).json(settings);
     } catch (error) {

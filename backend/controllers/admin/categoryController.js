@@ -4,12 +4,18 @@ exports.createCategory = async (req, res) => {
     try {
         const { name } = req.body;
 
-if (!name) return res.status(400).send('An error occurred!');
+if (!name) {
+    return res.status(400).json({
+        message: 'An error occurred!'
+    });
+}
 
         const isExist = await Category.findOne({ name: name });
 
         if (isExist) {
-            res.status(409).send('This category is already exist!');
+            res.status(409).json({
+                message: 'This category is already exist!'
+            });
         } else {
             const newCategory = await Category.create({
                 name: name
@@ -29,9 +35,13 @@ exports.deleteCategory = async (req, res) => {
         const isCategoryDeleted = await Category.findOneAndDelete({ slug: req.params.slug });
 
         if (isCategoryDeleted) {
-            res.status(200).send('The category deleted successfully.');
+            res.status(200).json({
+                message: 'The category deleted successfully.'
+            });
         } else {
-            res.status(404).send('Category not found!');
+            res.status(404).json({
+                message: 'Category not found!'
+            });
         }
     } catch (error) {
         console.error(error);
@@ -57,7 +67,11 @@ exports.updateCategory = async (req, res) => {
     try {
         const { name } = req.body;
 
-        if (!name) return res.status(400).send('An error occurred!');
+        if (!name) {
+            return res.status(400).json({
+                message: 'An error occurred!'
+            });
+        }
 
 const category = await Category.findOne({ slug: req.params.slug });
 
@@ -68,13 +82,14 @@ const category = await Category.findOne({ slug: req.params.slug });
          res.status(200).json(category);
 
         } else {
-            res.status(404).send('Category not found!');
+            res.status(404).json({
+                message: 'Category not found!'
+            });
         }
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: true,
-            message: error.message
+            error: true
         });
     }
 }
