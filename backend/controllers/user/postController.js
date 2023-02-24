@@ -3,33 +3,29 @@ const Post = require('../../models/post');
 
 exports.getAllPosts = async (req, res) => {
     try {
-
         const titleQuery = req.query.title;
         const categorySlug = req.query.category;
 
-        const category = await Category.findOne({ slug: categorySlug });
-
         let filter = {};
 
-
         if (titleQuery) {
-            filter = { title: titleQuery };
-        }
-        if (categorySlug) {
-            filter = { category: category._id };
+            filter.title = { $regex: '.*' + titleQuery + '.*', $options: 'i' };
         }
 
-        if (!titleQuery && !categorySlug) {
-            filter.title = "";
-            filter.category = null;
+        if (categorySlug) {
+            const category = await Category.findOne({ slug: categorySlug });
+
+            if (!category) {
+                return res.status(404).json({
+    message: 'Category not found!'
+});
+            }
+
+            filter.category = category._id;
         }
-        
-        const posts = await Post.find({
-            $or: [
-                { title: { $regex: '.*' + filter.title + '.*', $options: 'i' } },
-                { category: filter.category }
-              ]
-        }).select('-_id')
+
+        const posts = await Post.find(filter)
+        .select('-_id')
         .sort('-createdAt');
 
         res.status(200).json(posts);
@@ -40,6 +36,7 @@ exports.getAllPosts = async (req, res) => {
         });
     }
 }
+
 
 exports.getPost = async (req, res) => {
     try {
