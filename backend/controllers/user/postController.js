@@ -28,7 +28,13 @@ exports.getAllPosts = async (req, res) => {
         .select('-_id')
         .sort('-createdAt');
 
+        if (posts) {
         res.status(200).json(posts);
+        } else {
+            res.status(404).json({
+                message: 'No post found!'
+            });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({

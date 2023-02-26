@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const helmet = require('helmet');
+const { sanitize } = require('express-mongo-sanitize');
 
 // Import routes
 const adminCategoryRoute = require('./routes/admin/categoryRoute');
@@ -27,6 +28,15 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.all('*', (req, res, next) => {
+    req.body = sanitize(req.body)
+    req.headers = sanitize(req.headers)
+    req.params = sanitize(req.params)
+  
+    next();
+  });
+
 
 // Routes
 app.use('/api/admin', adminCategoryRoute);
