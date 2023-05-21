@@ -58,7 +58,22 @@ exports.deletePost = async (req, res) => {
 
 exports.getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find();
+
+        const { categorySlug, query, currentPage,  } = req.query;
+
+        let filter = {};
+
+        if (categorySlug) {
+            const category = await Category.findOne(categorySlug);
+            query.category = category._id;
+        }
+
+        if ( query) {
+            filter.title = { $regex: '.*' + query + '.*', $options: 'i' };
+        }
+
+        const posts = await Post.find(filter)
+        .sort('-createdAt');
 
         res.status(200).json(posts);
     } catch (error) {
