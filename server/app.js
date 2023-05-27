@@ -8,6 +8,7 @@ const { sanitize } = require('express-mongo-sanitize');
 const adminCategoryRoute = require('./routes/admin/categoryRoute');
 const adminSiteSettingRoute = require('./routes/admin/settingRoute');
 const adminPostRoute = require('./routes/admin/postRoute');
+const userCategoryRoute = require('./routes/user/categoryRoute');
 const userPostRoute = require('./routes/user/postRoute');
 const userSiteSettingRoute = require('./routes/user/settingRoute');
 const app = express();
@@ -43,6 +44,7 @@ app.use('/api/admin', adminCategoryRoute);
 app.use('/api/admin', adminSiteSettingRoute);
 app.use('/api/admin', adminPostRoute);
 app.use('/api/user', userSiteSettingRoute);
+app.use('/api/user', userCategoryRoute);
 app.use('/api/user', userPostRoute);
 
 const port = process.env.PORT || 80;

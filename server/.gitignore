@@ -1,4 +1,6 @@
 node_modules/
+
+mongoose-actions/
     
 package-lock.json
 
