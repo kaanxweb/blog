@@ -4,26 +4,13 @@ const postFilter = require('../../helpers/filterPost');
 
 exports.getAllPosts = async (req, res) => {
     try {
-        const titleQuery = req.query.title;
-        const categorySlug = req.query.category;
 
-        let filter = {};
+        const categorySlug = req.query.categories;
+        const { search } = req.query;
 
-        if (titleQuery) {
-            filter.title = { $regex: '.*' + titleQuery + '.*', $options: 'i' };
-        }
-
-        if (categorySlug) {
-            const category = await Category.findOne({ slug: categorySlug });
-
-            if (!category) {
-                return res.status(404).json({
-    message: 'Category not found!'
-});
-            }
-
-            filter.category = category._id;
-        }
+        postFilter.model = Category;
+        await postFilter.filterPost(categorySlug, search);
+        const filter = await postFilter.applyFilter();
 
         const posts = await Post.find(filter)
         .select('-_id')
