@@ -1,7 +1,19 @@
 module.exports = {
     filter: {},
     model: null,
-    applyFilter: function () {
+    filterPost: async function (categorySlug = "", search = "") {
+  
+const category = await this.model.findOne({ slug: categorySlug });
+this.filter = {};
+
+      if (category) {
+        this.filter.category = category._id;
+      }
+
+      if (search) {
+        this.filter.title = { $regex: '.*' + search + '.*', $options: 'i' };
+      }    },
+        applyFilter: function () {
       let filter = {};
   
       if (this.filter.category) {
@@ -11,18 +23,8 @@ module.exports = {
       if (this.filter.title) {
         filter.title = this.filter.title;
       }
-  
+
       return filter;
-    },
-    filterPost: async function (categorySlug, search) {
-      const category = await this.model.findOne({ slug: categorySlug });
-  
-      if (category) {
-        this.filter.category = category._id;
-      }
-  
-      if (search) {
-        this.filter.title = search;
-      }
     }
+
   }

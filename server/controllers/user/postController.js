@@ -1,5 +1,6 @@
 const Category = require('../../models/category');
 const Post = require('../../models/post');
+const postFilter = require('../../helpers/filterPost');
 
 exports.getAllPosts = async (req, res) => {
     try {
@@ -28,7 +29,7 @@ exports.getAllPosts = async (req, res) => {
         .select('-_id')
         .sort('-createdAt');
 
-        if (posts) {
+        if (posts.length) {
         res.status(200).json(posts);
         } else {
             res.status(404).json({

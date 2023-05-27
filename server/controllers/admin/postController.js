@@ -1,4 +1,6 @@
 const Post = require('../../models/post');
+const Category = require('../../models/category');
+const postFilter = require('../../helpers/filterPost');
 
 exports.createPost = async (req, res) => {
     try {
@@ -59,27 +61,28 @@ exports.deletePost = async (req, res) => {
 exports.getAllPosts = async (req, res) => {
     try {
 
-        const { categorySlug, query, currentPage,  } = req.query;
+const categorySlug = req.query.categories;
+        const { search, currentPage } = req.query;
 
-        let filter = {};
-
-        if (categorySlug) {
-            const category = await Category.findOne(categorySlug);
-            query.category = category._id;
-        }
-
-        if ( query) {
-            filter.title = { $regex: '.*' + query + '.*', $options: 'i' };
-        }
+        postFilter.model = Category;
+        await postFilter.filterPost(categorySlug, search);
+        const filter = await postFilter.applyFilter();
 
         const posts = await Post.find(filter)
         .sort('-createdAt');
 
-        res.status(200).json(posts);
+if (posts.  length) {
+    res.status(200).json(posts);
+} else {
+    res.status(404).json({
+        message: 'No post found.'
+    });
+}
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: true
+            error: true,
+            message: error.message
         });
     }
 }
