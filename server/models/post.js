@@ -25,7 +25,7 @@ const postSchema = new Schema({
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'category',
+        ref: 'Category',
         required: false
     },
     slug: {
